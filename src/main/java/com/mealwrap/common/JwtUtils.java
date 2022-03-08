@@ -44,5 +44,4 @@ public class JwtUtils {
                 .getBody();
         return claims.get("id", Integer.class);
     }
-
 }
