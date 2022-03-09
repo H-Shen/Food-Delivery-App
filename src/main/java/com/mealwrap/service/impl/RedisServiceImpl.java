@@ -22,7 +22,7 @@ public class RedisServiceImpl implements RedisService {
     public Result<List<String>> getKeys() {
         Set<String> keys = stringRedisTemplate.keys("*");
         if (keys == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "redis:Failed to obtain the key");
+            return Result.error(ResultEnum.BAD_REQUEST, "redis:failed to obtain the key");
         }
         List<String> result = new ArrayList<>(keys);
         return Result.success(result);
@@ -31,47 +31,47 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public Result<Void> insert(String key, String value) {
         if (key == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "redis键不能为空");
+            return Result.error(ResultEnum.BAD_REQUEST, "redis:the key cannot be empty");
         }
         if (value == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "redis值不能为空");
+            return Result.error(ResultEnum.BAD_REQUEST, "redis:the value cannot be empty");
         }
         stringRedisTemplate.opsForValue().set(key, value);
-        return Result.success("redis键值插入成功");
+        return Result.success("redis:(K,V) inserted successfully");
     }
 
     @Override
     public Result<Void> notExist(String key) {
         if (key == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "redis键不能为空");
+            return Result.error(ResultEnum.BAD_REQUEST, "redis:the key cannot be empty");
         }
         Boolean result = stringRedisTemplate.hasKey(key);
         if (result == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "redis键查找失败");
+            return Result.error(ResultEnum.BAD_REQUEST, "redis:failed to find the key");
         }
         if (result) {
-            return Result.error(ResultEnum.NOT_FOUND, "redis键已存在");
+            return Result.error(ResultEnum.NOT_FOUND, "redis:the key already exists");
         }
-        return Result.success("redis键不存在");
+        return Result.success("redis:the key is not found");
     }
 
     @Override
     public Result<Void> delete(String key) {
         if (key == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "redis键不能为空");
+            return Result.error(ResultEnum.BAD_REQUEST, "redis:the key cannot be empty");
         }
         Boolean found = stringRedisTemplate.hasKey(key);
         if (found == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "redis键查找失败");
+            return Result.error(ResultEnum.BAD_REQUEST, "redis:failed to find the key");
         }
         if (!found) {
-            return Result.error(ResultEnum.NOT_FOUND, "redis键不存在");
+            return Result.error(ResultEnum.NOT_FOUND, "redis:the key is not found");
         }
         Boolean result = stringRedisTemplate.delete(key);
         if (result == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "redis键删除失败");
+            return Result.error(ResultEnum.BAD_REQUEST, "redis:failed to delete the key");
         }
-        return Result.success("redis键删除成功");
+        return Result.success("redis:the key is deleted successfully");
     }
 }
 
