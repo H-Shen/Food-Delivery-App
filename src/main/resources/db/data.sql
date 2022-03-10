@@ -1,5 +1,3 @@
-/**  SELECT REPLACE(UUID(),'-',''); **/
-
 DELETE
 FROM t_user;
 INSERT INTO t_user (phone, username, password, address, create_at, update_at)

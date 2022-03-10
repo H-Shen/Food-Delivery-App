@@ -16,14 +16,13 @@ public class JwtUtils {
 
     public final static String SECRET_KEY = "mexcKtZSTfks2aNSNzq3XQ014VhC7rnfG36bTdRLls4=";
 
-    // 通过User ID生成token
+    // generate token by the ID
     public static String getToken(Integer id) {
         if (id == null) {
             return null;
         }
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
         Key    signingkey        = new SecretKeySpec(apiKeySecretBytes, SIGNATURE_ALGORITHM.getJcaName());
-        // 创建并返回token
         return Jwts.builder()
                 .setSubject(String.valueOf(id))
                 .claim("id", id)
@@ -31,7 +30,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    // 通过token返回User ID
+    // return the user ID from the token
     public static Integer getUserId(String token) {
         if (token == null) {
             return null;
