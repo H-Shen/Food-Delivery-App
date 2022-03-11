@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/user")
 @Api(tags = "User Controller")
 public class UserController {
+
     @Resource
     private UserService userService;
 

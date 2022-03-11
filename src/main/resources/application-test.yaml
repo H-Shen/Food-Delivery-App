@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mealwrap?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=America/Edmonton&useLegacyDatetimeCode=false
+    url: jdbc:mysql://177.77.0.2:3306/mealwrap?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=America/Edmonton&useLegacyDatetimeCode=false
     username: root
     password: 123456
   sql:
@@ -14,13 +14,8 @@ spring:
   redis:
     timeout: 60000
     database: 0
+    host: 177.77.0.4
     port: 6379
-  # file upload
-  servlet:
-    multipart:
-      enabled: true
-      max-request-size: 50MB
-      max-file-size: 50MB
 
 mybatis-plus:
   configuration:

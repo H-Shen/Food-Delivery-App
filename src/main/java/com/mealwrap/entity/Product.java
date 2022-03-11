@@ -16,8 +16,9 @@ import java.math.BigDecimal;
 public class Product {
     @TableId(type = IdType.AUTO)
     private Integer    id;
+    private Integer    merchantId;
     private String     name;
     private BigDecimal price;
     private Integer    percentOff;
-    private Byte[]     image;
+    private String     image;
 }

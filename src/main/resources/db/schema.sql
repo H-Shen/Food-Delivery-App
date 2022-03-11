@@ -23,25 +23,16 @@ DROP TABLE IF EXISTS t_product;
 CREATE TABLE t_product
 (
     `id`          INT AUTO_INCREMENT NOT NULL,
-    `name`        VARCHAR(64) NULL,
-    `price`       DECIMAL NULL,
-    `percent_off` INT NULL,
-    `image`       BLOB NULL,
+    `merchant_id` INT                NOT NULL,
+    `name`        VARCHAR(64)        NULL,
+    `price`       DECIMAL            NULL,
+    `percent_off` INT                NULL,
+    `image`       VARCHAR(64)        NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `name` (`name`)
+    UNIQUE KEY (`merchant_id`, `name`) /** each product of one merchant has a unique name **/
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT ='Merchant';
-
-DROP TABLE IF EXISTS t_merchant_product;
-CREATE TABLE t_merchant_product
-(
-    `merchant_id` INT NOT NULL,
-    `product_id`  INT NOT NULL,
-    PRIMARY KEY (`merchant_id`, `product_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT ='Merchant To Product';
+  COLLATE = utf8mb4_general_ci COMMENT ='Product';
 
 DROP TABLE IF EXISTS t_merchant_tag;
 CREATE TABLE t_merchant_tag
