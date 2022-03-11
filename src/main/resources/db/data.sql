@@ -16,10 +16,10 @@ DELETE
 FROM t_product;
 
 DELETE
-FROM t_shopping_cart;
+FROM t_merchant_tag;
 
 DELETE
-FROM t_merchant_product;
+FROM t_shopping_cart;
 
 DELETE
 FROM t_order;
