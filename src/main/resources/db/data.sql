@@ -14,9 +14,23 @@ VALUES ('6135550143', 'Jone', '$2a$10$lwhSaNuNaLJxn48HKK1KDeHzREy6jv3qikRIrIBOoz
 
 DELETE
 FROM t_product;
+INSERT INTO t_product (merchant_id, name, price, percent_off)
+VALUES (4, 'product1', 5.00, 10),
+       (4, 'product2', 4.00, 10),
+       (5, 'product3', 4.50, 0);
 
 DELETE
 FROM t_merchant_tag;
+
+DELETE
+FROM t_tag;
+INSERT INTO t_tag (name)
+VALUES ('Chicken'),
+       ('Vegetarian'),
+       ('Burgers'),
+       ('Desserts'),
+       ('Alcohol');
+
 
 DELETE
 FROM t_shopping_cart;

@@ -2,8 +2,8 @@ package com.mealwrap.controller;
 
 import com.mealwrap.common.Result;
 import com.mealwrap.common.ResultEnum;
-import com.mealwrap.entity.Order;
-import com.mealwrap.service.OrderService;
+import com.mealwrap.entity.Tag;
+import com.mealwrap.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,20 +14,20 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
-@Api(tags = "Order Controller")
-public class OrderController {
+@RequestMapping("/tag")
+@Api(tags = "Tag Controller")
+public class TagController {
 
     @Resource
-    private OrderService orderService;
+    TagService tagService;
 
-    @ApiOperation("List all orders")
+    @ApiOperation("List all tag names")
     @GetMapping("/all")
-    public Result<List<Order>> list() {
-        List<Order> orders = orderService.list();
-        if (orders == null) {
+    public Result<List<Tag>> list() {
+        List<Tag> tags = tagService.list();
+        if (tags == null) {
             return Result.error(ResultEnum.BAD_REQUEST);
         }
-        return Result.success(orders);
+        return Result.success(tags);
     }
 }

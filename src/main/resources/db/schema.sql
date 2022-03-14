@@ -27,19 +27,31 @@ CREATE TABLE t_product
     `name`        VARCHAR(64)        NULL,
     `price`       DECIMAL            NULL,
     `percent_off` INT                NULL,
-    `image`       VARCHAR(64)        NULL DEFAULT NULL,
+    `image`       LONGBLOB           NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`merchant_id`, `name`) /** each product of one merchant has a unique name **/
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='Product';
 
+DROP TABLE IF EXISTS t_tag;
+CREATE TABLE t_tag
+(
+    `id`    INT AUTO_INCREMENT NOT NULL,
+    `name`  VARCHAR(64)        NOT NULL,
+    `image` TEXT               NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`name`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='Tag';
+
 DROP TABLE IF EXISTS t_merchant_tag;
 CREATE TABLE t_merchant_tag
 (
     `merchant_id` INT         NOT NULL,
-    `tag`         VARCHAR(32) NOT NULL,
-    PRIMARY KEY (`merchant_id`, `tag`)
+    `tag_name`    VARCHAR(32) NOT NULL,
+    PRIMARY KEY (`merchant_id`, `tag_name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='Merchant To Tag';

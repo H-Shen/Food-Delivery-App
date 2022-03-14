@@ -23,7 +23,7 @@ public class Order {
     private LocalDateTime deliveryTime;
     private Integer       deliveryMethod;
     private BigDecimal    totalPrice;
-    private BigDecimal    deliveryFree;
+    private BigDecimal    deliveryFee;
     private BigDecimal    tax;
     private BigDecimal    tip;
     private String        comment;

@@ -22,6 +22,7 @@
         <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
         <spring-boot-devtools.version>2.5.4</spring-boot-devtools.version>
         <spring-boot-starter-test.version>2.5.4</spring-boot-starter-test.version>
+        <spring-boot-devtools.version>2.5.4</spring-boot-devtools.version>
         <lombok.version>1.18.22</lombok.version>
         <mybatis-plus-boot-starter.version>3.5.1</mybatis-plus-boot-starter.version>
         <jjwt.version>0.9.1</jjwt.version>
@@ -31,6 +32,12 @@
         <hutool-all.version>5.7.20</hutool-all.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>${spring-boot-devtools.version}</version>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>

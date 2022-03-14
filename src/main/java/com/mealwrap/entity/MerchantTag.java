@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @TableName("t_merchant_tag")
 public class MerchantTag {
     private Integer merchantId;
-    private String  tag;
+    private String  tagName;
 }

@@ -7,18 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("t_product")
-public class Product {
+@TableName("t_tag")
+public class Tag {
     @TableId(type = IdType.AUTO)
-    private Integer    id;
-    private Integer    merchantId;
-    private String     name;
-    private BigDecimal price;
-    private Integer    percentOff;
-    private byte[]     image;
+    private Integer id;
+    private String  name;
+    private String  image;
 }
