@@ -96,8 +96,9 @@ CREATE TABLE t_order
     `delivery_fee`    DECIMAL            NULL,
     `tax`             DECIMAL            NULL,
     `tip`             DECIMAL            NULL,
-    `comment`         VARCHAR(512) NULL,
-    `create_at`       DATETIME NULL,
+    `comment`         VARCHAR(512)       NULL,
+    `create_at`       DATETIME           NULL,
+    `update_at`       DATETIME           NULL,
     PRIMARY KEY (`order_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

@@ -23,7 +23,7 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    void listTest() {
+    void list() {
         List<User> users = userService.list();
         users.forEach(System.out::println);
     }

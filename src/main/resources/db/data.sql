@@ -26,6 +26,9 @@ VALUES ('6135550120', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsR
 
 DELETE
 FROM t_merchant_tag;
+INSERT INTO t_merchant_tag (merchant_id, tag_name)
+VALUES (1, 'tag1'),
+       (1, 'tag2');
 
 DELETE
 FROM t_tag;

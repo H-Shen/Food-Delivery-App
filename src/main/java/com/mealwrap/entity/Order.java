@@ -29,4 +29,6 @@ public class Order {
     private String        comment;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createAt;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateAt;
 }
