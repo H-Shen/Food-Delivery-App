@@ -32,7 +32,7 @@ class UserControllerTest {
     private       MockMvc mockMvc;
 
     @Test
-    void listTest() throws Exception {
+    void list() throws Exception {
         String url = baseUrl + "/all";
         RequestBuilder request = MockMvcRequestBuilders.get(url)
                 .accept(MediaType.APPLICATION_JSON)

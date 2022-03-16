@@ -21,7 +21,7 @@ public class TagController {
     @Resource
     TagService tagService;
 
-    @ApiOperation("List all tag names")
+    @ApiOperation("List all tag")
     @GetMapping("/all")
     public Result<List<Tag>> list() {
         List<Tag> tags = tagService.list();

@@ -25,9 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @Rollback
-class TagControllerTest {
+class OrderControllerTest {
 
-    private final String  baseUrl = "/tag";
+    private final String  baseUrl = "/order";
     @Resource
     private       MockMvc mockMvc;
 
@@ -37,6 +37,22 @@ class TagControllerTest {
         RequestBuilder request = MockMvcRequestBuilders.get(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.SUCCESS.getCode()))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
+
+    @Test
+    void listById() throws Exception {
+        String  url = baseUrl + "/id";
+        Integer id  = 1;
+        RequestBuilder request = MockMvcRequestBuilders.get(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("id", String.valueOf(id));
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultEnum.SUCCESS.getCode()))

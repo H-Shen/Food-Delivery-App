@@ -1,8 +1,11 @@
 package com.mealwrap.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mealwrap.common.Result;
 import com.mealwrap.common.ResultEnum;
+import com.mealwrap.entity.Merchant;
 import com.mealwrap.entity.Product;
+import com.mealwrap.service.MerchantService;
 import com.mealwrap.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +20,30 @@ import java.util.List;
 @Api(tags = "Product Controller")
 public class ProductController {
     @Resource
-    private ProductService productService;
+    private ProductService  productService;
+    @Resource
+    private MerchantService merchantService;
+
+    @ApiOperation("List all products of a merchant without images by giving merchant id")
+    @GetMapping("/merchant_id")
+    public Result<List<Product>> listByMerchantId(
+            @RequestParam Integer merchantId) {
+        if (merchantId == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "merchant id is null");
+        }
+        Merchant merchant = merchantService.getById(merchantId);
+        if (merchant == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "merchant id does not exist");
+        }
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id", "merchant_id", "name", "price", "percent_off")
+                .eq("merchant_id", merchantId);
+        List<Product> products = productService.list(queryWrapper);
+        if (products == null) {
+            return Result.error(ResultEnum.BAD_REQUEST);
+        }
+        return Result.success(products);
+    }
 
     @ApiOperation("List all products")
     @GetMapping("/all")
@@ -29,8 +55,8 @@ public class ProductController {
         return Result.success(products);
     }
 
-    @ApiOperation("Return an image")
-    @GetMapping(value = "/getimage")
+    @ApiOperation("Get an image of a product")
+    @GetMapping(value = "/image")
     public Result<Byte[]> getImage(
             @RequestParam("id") Integer id) {
         if (id == null) {
@@ -44,7 +70,7 @@ public class ProductController {
         return null;
     }
 
-    @ApiOperation("Upload an image")
+    @ApiOperation("Upload an image of a product")
     @PostMapping(value = "/upload")
     public Result<Void> upload(
             @RequestParam("id") Integer id,

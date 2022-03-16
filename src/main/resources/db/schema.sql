@@ -5,19 +5,33 @@ DROP TABLE IF EXISTS t_user;
 CREATE TABLE t_user
 (
     `id`        INT AUTO_INCREMENT NOT NULL,
-    `phone`     VARCHAR(20)  NOT NULL,
-    `username`  VARCHAR(30) NULL,
-    `password`  VARCHAR(128) NOT NULL COMMENT 'encrypted password',
-    `address`   VARCHAR(256) NULL,
-    `role`      INT          NOT NULL DEFAULT 0, /** 0,1,2 **/
-    `create_at` DATETIME NULL,
-    `update_at` DATETIME NULL,
-    `rank`      DECIMAL               DEFAULT 0.0,
+    `phone`     VARCHAR(20)        NOT NULL,
+    `password`  VARCHAR(128)       NOT NULL COMMENT 'encrypted password',
+    `address`   VARCHAR(256)       NULL,
+    `create_at` DATETIME           NULL,
+    `update_at` DATETIME           NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `phone` (`phone`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='User';
+
+DROP TABLE IF EXISTS t_merchant;
+CREATE TABLE t_merchant
+(
+    `id`        INT AUTO_INCREMENT NOT NULL,
+    `phone`     VARCHAR(20)        NOT NULL,
+    `password`  VARCHAR(128)       NOT NULL COMMENT 'encrypted password',
+    `address`   VARCHAR(256)       NULL,
+    `rating`    DECIMAL                 DEFAULT 0.0,
+    `create_at` DATETIME           NULL,
+    `update_at` DATETIME           NULL,
+    `image`     LONGBLOB           NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `phone` (`phone`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='Merchant';
 
 DROP TABLE IF EXISTS t_product;
 CREATE TABLE t_product
@@ -71,17 +85,17 @@ DROP TABLE IF EXISTS t_order;
 CREATE TABLE t_order
 (
     `order_id`        INT AUTO_INCREMENT NOT NULL,
-    `buyer_id`        INT NOT NULL,
-    `merchant_id`     INT NOT NULL,
-    `address`         VARCHAR(256) NULL,
-    `phone`           VARCHAR(20) NULL,
-    `payment_method`  INT NULL, /** 0 1 2 **/
+    `user_id`         INT                NOT NULL, /** buyer id **/
+    `merchant_id`     INT                NOT NULL,
+    `address`         VARCHAR(256)       NULL,
+    `phone`           VARCHAR(20)        NULL,
+    `payment_method`  INT                NULL, /** 0 1 2 **/
     `delivery_time`   DATETIME           NULL,
-    `delivery_method` INT NULL, /** 0 1 2 **/
-    `total_price`     DECIMAL NULL,
-    `delivery_fee`    DECIMAL NULL,
-    `tax`             DECIMAL NULL,
-    `tip`             DECIMAL NULL,
+    `delivery_method` INT                NULL, /** 0 1 2 **/
+    `total_price`     DECIMAL            NULL,
+    `delivery_fee`    DECIMAL            NULL,
+    `tax`             DECIMAL            NULL,
+    `tip`             DECIMAL            NULL,
     `comment`         VARCHAR(512) NULL,
     `create_at`       DATETIME NULL,
     PRIMARY KEY (`order_id`)

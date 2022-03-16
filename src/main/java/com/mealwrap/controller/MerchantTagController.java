@@ -13,4 +13,8 @@ import javax.annotation.Resource;
 public class MerchantTagController {
     @Resource
     private MerchantTagService merchantTagService;
+
+    // get 给我一个tagname 返回所有商家除了图片的外的字段 这些商家包含这个tag
+
+    //
 }

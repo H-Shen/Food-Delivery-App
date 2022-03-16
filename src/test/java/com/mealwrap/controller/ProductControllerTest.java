@@ -25,11 +25,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @Rollback
-class TagControllerTest {
+class ProductControllerTest {
 
-    private final String  baseUrl = "/tag";
+    private final String  baseUrl = "/product";
     @Resource
     private       MockMvc mockMvc;
+
+    @Test
+    void listByMerchantId() throws Exception {
+        String  url        = baseUrl + "/merchant_id";
+        Integer merchantId = 1;
+        RequestBuilder request = MockMvcRequestBuilders.get(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("merchantId", String.valueOf(merchantId));
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.SUCCESS.getCode()))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
 
     @Test
     void list() throws Exception {

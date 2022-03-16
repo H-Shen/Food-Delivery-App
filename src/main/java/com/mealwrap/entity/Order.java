@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Order {
     @TableId(type = IdType.AUTO)
     private Integer       orderId;
-    private Integer       buyerId;
+    private Integer       userId;
     private Integer       merchantId;
     private String        address;
     private String        phone;
