@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,7 +17,7 @@ public class Merchant {
     private String        phone;
     private String        password;
     private String        address;
-    private BigDecimal    rating;
+    private Integer       rating;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createAt;
     @TableField(fill = FieldFill.INSERT_UPDATE)

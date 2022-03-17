@@ -1,11 +1,11 @@
 package com.mealwrap.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,18 +14,19 @@ import java.time.LocalDateTime;
 @TableName("t_order")
 public class Order {
     @TableId(type = IdType.AUTO)
-    private Integer       orderId;
+    private Integer       id;
     private Integer       userId;
     private Integer       merchantId;
     private String        address;
     private String        phone;
     private Integer       paymentMethod;
+    @ApiModelProperty(dataType = "String", required = true, example = "2020-01-01 13:30:31")
     private LocalDateTime deliveryTime;
     private Integer       deliveryMethod;
-    private BigDecimal    totalPrice;
-    private BigDecimal    deliveryFee;
-    private BigDecimal    tax;
-    private BigDecimal    tip;
+    private Double        totalPrice;
+    private Double        deliveryFee;
+    private Double        tax;
+    private Double        tip;
     private String        comment;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createAt;

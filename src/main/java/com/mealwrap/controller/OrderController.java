@@ -2,8 +2,10 @@ package com.mealwrap.controller;
 
 import com.mealwrap.common.Result;
 import com.mealwrap.common.ResultEnum;
+import com.mealwrap.entity.Merchant;
 import com.mealwrap.entity.Order;
 import com.mealwrap.entity.User;
+import com.mealwrap.service.MerchantService;
 import com.mealwrap.service.OrderService;
 import com.mealwrap.service.UserService;
 import io.swagger.annotations.Api;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,9 @@ public class OrderController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private MerchantService merchantService;
 
     @ApiOperation("List all orders")
     @GetMapping("/all")
@@ -61,7 +68,6 @@ public class OrderController {
         }
     }
 
-    // post
     @ApiOperation("Insert an order")
     @PostMapping("/insert")
     public Result<Order> insert(
@@ -71,56 +77,166 @@ public class OrderController {
         }
 
         if (!requestBody.containsKey("userId")) {
-            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain user id");
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'userId'");
         }
         if (requestBody.get("userId") == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "user id is null");
+            return Result.error(ResultEnum.BAD_REQUEST, "'userId' is null");
         }
         if (!(requestBody.get("userId") instanceof Integer)) {
-            return Result.error(ResultEnum.BAD_REQUEST, "user id type mismatched");
+            return Result.error(ResultEnum.BAD_REQUEST, "'userId' type mismatched");
         }
 
         if (!requestBody.containsKey("merchantId")) {
-            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain merchant id");
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'merchantId'");
         }
         if (requestBody.get("merchantId") == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "merchant id is null");
+            return Result.error(ResultEnum.BAD_REQUEST, "'merchantId' is null");
         }
         if (!(requestBody.get("merchantId") instanceof Integer)) {
-            return Result.error(ResultEnum.BAD_REQUEST, "merchant id type mismatched");
+            return Result.error(ResultEnum.BAD_REQUEST, "'merchantId' type mismatched");
         }
 
         if (!requestBody.containsKey("address")) {
-            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain address");
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'address'");
         }
         if (requestBody.get("address") == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "address is null");
+            return Result.error(ResultEnum.BAD_REQUEST, "'address' is null");
         }
         if (!(requestBody.get("address") instanceof String)) {
-            return Result.error(ResultEnum.BAD_REQUEST, "address type mismatched");
+            return Result.error(ResultEnum.BAD_REQUEST, "'address' type mismatched");
         }
 
         if (!requestBody.containsKey("phone")) {
-            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain phone");
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'phone'");
         }
         if (requestBody.get("phone") == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "phone is null");
+            return Result.error(ResultEnum.BAD_REQUEST, "'phone' is null");
         }
         if (!(requestBody.get("phone") instanceof String)) {
-            return Result.error(ResultEnum.BAD_REQUEST, "phone type mismatched");
+            return Result.error(ResultEnum.BAD_REQUEST, "'phone' type mismatched");
         }
 
         if (!requestBody.containsKey("paymentMethod")) {
-            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain payment method");
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'paymentMethod'");
         }
         if (requestBody.get("paymentMethod") == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "payment method is null");
+            return Result.error(ResultEnum.BAD_REQUEST, "'paymentMethod' is null");
         }
-        if (!(requestBody.get("paymentMethod") instanceof String)) {
-            return Result.error(ResultEnum.BAD_REQUEST, "payment method type mismatched");
+        if (!(requestBody.get("paymentMethod") instanceof Integer)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'phone' type mismatched");
         }
-        return null;
+
+        if (!requestBody.containsKey("deliveryTime")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'deliveryTime'");
+        }
+        if (requestBody.get("deliveryTime") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'paymentMethod' is null");
+        }
+        if (!(requestBody.get("deliveryTime") instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'deliveryTime' type mismatched");
+        }
+
+        if (!requestBody.containsKey("deliveryMethod")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'deliveryMethod'");
+        }
+        if (requestBody.get("deliveryMethod") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'deliveryMethod' is null");
+        }
+        if (!(requestBody.get("deliveryMethod") instanceof Integer)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'deliveryMethod' type mismatched");
+        }
+
+        if (!requestBody.containsKey("totalPrice")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'totalPrice'");
+        }
+        if (requestBody.get("totalPrice") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'totalPrice' is null");
+        }
+        if (!(requestBody.get("totalPrice") instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'totalPrice' type mismatched");
+        }
+
+        if (!requestBody.containsKey("deliveryFee")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'deliveryFee'");
+        }
+        if (requestBody.get("deliveryFee") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'deliveryFee' is null");
+        }
+        if (!(requestBody.get("deliveryFee") instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'deliveryFee' type mismatched");
+        }
+
+        if (!requestBody.containsKey("tax")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'tax'");
+        }
+        if (requestBody.get("tax") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'tax' is null");
+        }
+        if (!(requestBody.get("tax") instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'tax' type mismatched");
+        }
+
+        if (!requestBody.containsKey("tip")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'tip'");
+        }
+        if (requestBody.get("tip") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'tip' is null");
+        }
+        if (!(requestBody.get("tip") instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'tip' type mismatched");
+        }
+
+        if (!requestBody.containsKey("comment")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'comment'");
+        }
+        if (requestBody.get("comment") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'comment' is null");
+        }
+        if (!(requestBody.get("comment") instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'comment' type mismatched");
+        }
+
+        Integer userId = (Integer) requestBody.get("userId");
+        User    user   = userService.getById(userId);
+        if (user == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "user does not exist");
+        }
+        Integer  merchantId = (Integer) requestBody.get("merchantId");
+        Merchant merchant   = merchantService.getById(merchantId);
+        if (merchant == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "merchant does not exist");
+        }
+        try {
+            final DateTimeFormatter formatter    = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime           deliveryTime = LocalDateTime.parse((String) requestBody.get("deliveryTime"), formatter);
+            Order                   order        = new Order();
+                        /*
+            order.setUserId(userId);
+            order.setMerchantId(merchantId);
+            order.setAddress((String)requestBody.get("address"));
+            order.setPhone((String)requestBody.get("phone"));
+            order.setPaymentMethod((Integer)requestBody.get("paymentMethod"));
+            order.setDeliveryTime(deliveryTime);
+            order.setDeliveryMethod((Integer)requestBody.get("deliveryMethod"));
+            order.setTotalPrice((Double) requestBody.get("totalPrice"));
+            order.setDeliveryFee(new BigDecimal((String)requestBody.get("deliveryFee")));
+            order.setTax(new BigDecimal((String)requestBody.get("tax")));
+            order.setTip(new BigDecimal((String)requestBody.get("tip")));
+            order.setComment((String)requestBody.get("comment"));
+            if (!orderService.save(order)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "failed to insert the order");
+            }
+            */
+            return Result.success(order);
+        } catch (Exception e) {
+            return Result.error(ResultEnum.BAD_REQUEST, e.getMessage());
+        }
     }
 
-    // update (按postmapping写)
+    @ApiOperation("Update an order")
+    @PostMapping("/update")
+    public Result<Void> update(
+            @RequestBody @NotNull Map<String, Object> requestBody) {
+        return null;
+    }
 }

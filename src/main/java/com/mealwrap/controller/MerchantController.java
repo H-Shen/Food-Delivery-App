@@ -14,6 +14,5 @@ public class MerchantController {
     @Resource
     private MerchantService merchantService;
 
-    // get 给商家id 返回商家下所有的product非图片部分
 
 }
