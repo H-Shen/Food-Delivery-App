@@ -149,7 +149,7 @@ public class ShoppingCartController {
                     .eq("product_id", productId);
             ShoppingCart shoppingCart = shoppingCartService.getOne(queryWrapper);
             if (shoppingCart == null) {
-                return Result.error(ResultEnum.BAD_REQUEST, "the product is not in the shopping cart");
+                return Result.error(ResultEnum.BAD_REQUEST, "the product is not added in the shopping cart");
             }
             shoppingCart.setQuantity(quantity);
             if (!shoppingCartService.update(shoppingCart, queryWrapper)) {
