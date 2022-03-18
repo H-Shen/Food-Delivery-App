@@ -75,7 +75,7 @@ CREATE TABLE t_shopping_cart
 (
     `user_id`    INT NOT NULL,
     `product_id` INT NOT NULL,
-    `quantity`   INT NULL,
+    `quantity`   INT NOT NULL DEFAULT 1,
     PRIMARY KEY (`user_id`, `product_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

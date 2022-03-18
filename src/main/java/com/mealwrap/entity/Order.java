@@ -28,8 +28,10 @@ public class Order {
     private Double        tax;
     private Double        tip;
     private String        comment;
+    @ApiModelProperty(dataType = "String", required = true, example = "2020-01-01 13:30:31")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createAt;
+    @ApiModelProperty(dataType = "String", required = true, example = "2020-01-01 13:30:31")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateAt;
 }

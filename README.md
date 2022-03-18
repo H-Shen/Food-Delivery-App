@@ -5,8 +5,9 @@ docker-compose build --no-cache
 docker-compose up -d
 # to check the app logs
 docker logs -f mealwrap-springboot
-# to test
+# to test with curl
 curl -X GET "http://localhost:18080/user/all" -H "accept: */*"
+# to test 
 # to quit and clean
 docker-compose down --rmi all
 ```

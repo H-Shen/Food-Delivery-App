@@ -130,7 +130,7 @@ public class OrderController {
             return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'deliveryTime'");
         }
         if (requestBody.get("deliveryTime") == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "'paymentMethod' is null");
+            return Result.error(ResultEnum.BAD_REQUEST, "'deliveryTime' is null");
         }
         if (!(requestBody.get("deliveryTime") instanceof String)) {
             return Result.error(ResultEnum.BAD_REQUEST, "'deliveryTime' type mismatched");
@@ -152,7 +152,7 @@ public class OrderController {
         if (requestBody.get("totalPrice") == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "'totalPrice' is null");
         }
-        if (!(requestBody.get("totalPrice") instanceof String)) {
+        if (!(requestBody.get("totalPrice") instanceof Double)) {
             return Result.error(ResultEnum.BAD_REQUEST, "'totalPrice' type mismatched");
         }
 
@@ -162,7 +162,7 @@ public class OrderController {
         if (requestBody.get("deliveryFee") == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "'deliveryFee' is null");
         }
-        if (!(requestBody.get("deliveryFee") instanceof String)) {
+        if (!(requestBody.get("deliveryFee") instanceof Double)) {
             return Result.error(ResultEnum.BAD_REQUEST, "'deliveryFee' type mismatched");
         }
 
@@ -172,7 +172,7 @@ public class OrderController {
         if (requestBody.get("tax") == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "'tax' is null");
         }
-        if (!(requestBody.get("tax") instanceof String)) {
+        if (!(requestBody.get("tax") instanceof Double)) {
             return Result.error(ResultEnum.BAD_REQUEST, "'tax' type mismatched");
         }
 
@@ -182,7 +182,7 @@ public class OrderController {
         if (requestBody.get("tip") == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "'tip' is null");
         }
-        if (!(requestBody.get("tip") instanceof String)) {
+        if (!(requestBody.get("tip") instanceof Double)) {
             return Result.error(ResultEnum.BAD_REQUEST, "'tip' type mismatched");
         }
 
@@ -210,23 +210,21 @@ public class OrderController {
             final DateTimeFormatter formatter    = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime           deliveryTime = LocalDateTime.parse((String) requestBody.get("deliveryTime"), formatter);
             Order                   order        = new Order();
-                        /*
             order.setUserId(userId);
             order.setMerchantId(merchantId);
-            order.setAddress((String)requestBody.get("address"));
-            order.setPhone((String)requestBody.get("phone"));
-            order.setPaymentMethod((Integer)requestBody.get("paymentMethod"));
+            order.setAddress((String) requestBody.get("address"));
+            order.setPhone((String) requestBody.get("phone"));
+            order.setPaymentMethod((Integer) requestBody.get("paymentMethod"));
             order.setDeliveryTime(deliveryTime);
-            order.setDeliveryMethod((Integer)requestBody.get("deliveryMethod"));
+            order.setDeliveryMethod((Integer) requestBody.get("deliveryMethod"));
             order.setTotalPrice((Double) requestBody.get("totalPrice"));
-            order.setDeliveryFee(new BigDecimal((String)requestBody.get("deliveryFee")));
-            order.setTax(new BigDecimal((String)requestBody.get("tax")));
-            order.setTip(new BigDecimal((String)requestBody.get("tip")));
-            order.setComment((String)requestBody.get("comment"));
+            order.setDeliveryFee((Double) requestBody.get("deliveryFee"));
+            order.setTax((Double) requestBody.get("tax"));
+            order.setTip((Double) requestBody.get("tip"));
+            order.setComment((String) requestBody.get("comment"));
             if (!orderService.save(order)) {
                 return Result.error(ResultEnum.BAD_REQUEST, "failed to insert the order");
             }
-            */
             return Result.success(order);
         } catch (Exception e) {
             return Result.error(ResultEnum.BAD_REQUEST, e.getMessage());
@@ -235,8 +233,157 @@ public class OrderController {
 
     @ApiOperation("Update an order")
     @PostMapping("/update")
-    public Result<Void> update(
+    public Result<Order> update(
             @RequestBody @NotNull Map<String, Object> requestBody) {
-        return null;
+        if (requestBody == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body is null");
+        }
+        // Order ID must be given
+        if (!requestBody.containsKey("id")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'id'");
+        }
+        if (requestBody.get("id") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'id' is null");
+        }
+        if (!(requestBody.get("id") instanceof Integer)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'id' type mismatched");
+        }
+        Integer id    = (Integer) requestBody.get("id");
+        Order   order = orderService.getById(id);
+        if (order == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "order does not exist");
+        }
+        // Update fields
+        if (requestBody.containsKey("userId")) {
+            if (requestBody.get("userId") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'userId' is null");
+            }
+            if (!(requestBody.get("userId") instanceof Integer)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'userId' type mismatched");
+            }
+            Integer userId = (Integer) requestBody.get("userId");
+            if (userService.getById(userId) == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "user does not exist");
+            }
+            order.setUserId(userId);
+        }
+        if (requestBody.containsKey("merchantId")) {
+            if (requestBody.get("merchantId") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'merchantId' is null");
+            }
+            if (!(requestBody.get("merchantId") instanceof Integer)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'merchantId' type mismatched");
+            }
+            Integer merchantId = (Integer) requestBody.get("merchantId");
+            if (merchantService.getById(merchantId) == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "merchant does not exist");
+            }
+            order.setMerchantId(merchantId);
+        }
+        if (requestBody.containsKey("address")) {
+            if (requestBody.get("address") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'address' is null");
+            }
+            if (!(requestBody.get("address") instanceof String)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'address' type mismatched");
+            }
+            order.setAddress((String) requestBody.get("address"));
+        }
+        if (requestBody.containsKey("phone")) {
+            if (requestBody.get("phone") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'phone' is null");
+            }
+            if (!(requestBody.get("phone") instanceof String)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'phone' type mismatched");
+            }
+            order.setPhone((String) requestBody.get("phone"));
+        }
+        if (requestBody.containsKey("paymentMethod")) {
+            if (requestBody.get("paymentMethod") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'paymentMethod' is null");
+            }
+            if (!(requestBody.get("paymentMethod") instanceof Integer)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'phone' type mismatched");
+            }
+            order.setPaymentMethod((Integer) requestBody.get("paymentMethod"));
+        }
+        if (requestBody.containsKey("deliveryTime")) {
+            if (requestBody.get("deliveryTime") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'deliveryTime' is null");
+            }
+            if (!(requestBody.get("deliveryTime") instanceof String)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'deliveryTime' type mismatched");
+            }
+            try {
+                final DateTimeFormatter formatter    = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime           deliveryTime = LocalDateTime.parse((String) requestBody.get("deliveryTime"), formatter);
+                order.setDeliveryTime(deliveryTime);
+            } catch (Exception e) {
+                return Result.error(ResultEnum.BAD_REQUEST, e.getMessage());
+            }
+        }
+        if (requestBody.containsKey("deliveryMethod")) {
+            if (requestBody.get("deliveryMethod") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'deliveryMethod' is null");
+            }
+            if (!(requestBody.get("deliveryMethod") instanceof Integer)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'deliveryMethod' type mismatched");
+            }
+            order.setDeliveryMethod((Integer) requestBody.get("deliveryMethod"));
+        }
+        if (requestBody.containsKey("totalPrice")) {
+            if (requestBody.get("totalPrice") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'totalPrice' is null");
+            }
+            if (!(requestBody.get("totalPrice") instanceof Double)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'totalPrice' type mismatched");
+            }
+            order.setTotalPrice((Double) requestBody.get("totalPrice"));
+        }
+        if (requestBody.containsKey("deliveryFee")) {
+            if (requestBody.get("deliveryFee") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'deliveryFee' is null");
+            }
+            if (!(requestBody.get("deliveryFee") instanceof Double)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'deliveryFee' type mismatched");
+            }
+            order.setDeliveryFee((Double) requestBody.get("deliveryFee"));
+        }
+        if (requestBody.containsKey("tax")) {
+            if (requestBody.get("tax") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'tax' is null");
+            }
+            if (!(requestBody.get("tax") instanceof Double)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'tax' type mismatched");
+            }
+            order.setTax((Double) requestBody.get("tax"));
+        }
+        if (requestBody.containsKey("tip")) {
+            if (requestBody.get("tip") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'tip' is null");
+            }
+            if (!(requestBody.get("tip") instanceof Double)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'tip' type mismatched");
+            }
+            order.setTip((Double) requestBody.get("tip"));
+        }
+        if (requestBody.containsKey("comment")) {
+            if (requestBody.get("comment") == null) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'comment' is null");
+            }
+            if (!(requestBody.get("comment") instanceof String)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "'comment' type mismatched");
+            }
+            order.setComment((String) requestBody.get("comment"));
+        }
+        order.setUpdateAt(null);
+        try {
+            if (!orderService.updateById(order)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "failed to update the order");
+            }
+            return Result.success(order);
+        } catch (Exception e) {
+            return Result.error(ResultEnum.BAD_REQUEST, e.getMessage());
+        }
     }
 }

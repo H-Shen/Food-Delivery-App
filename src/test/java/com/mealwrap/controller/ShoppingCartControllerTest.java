@@ -16,7 +16,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,4 +49,47 @@ class ShoppingCartControllerTest {
         mvcResult.getResponse().setCharacterEncoding("UTF-8");
         System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
     }
+
+    @Test
+    void insertAnItem() throws Exception {
+        String              url         = baseUrl + "/insert";
+        Integer             userId      = 1;
+        Integer             productId   = 3;
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("userId", userId);
+        requestBody.put("productId", productId);
+        RequestBuilder request = MockMvcRequestBuilders.post(url)
+                .content(JSONUtil.toJsonStr(requestBody))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.SUCCESS.getCode()))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
+
+    @Test
+    void insertAnDuplicatedItem() throws Exception {
+        String              url         = baseUrl + "/insert";
+        Integer             userId      = 1;
+        Integer             productId   = 1;
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("userId", userId);
+        requestBody.put("productId", productId);
+        RequestBuilder request = MockMvcRequestBuilders.post(url)
+                .content(JSONUtil.toJsonStr(requestBody))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.BAD_REQUEST.getCode()))
+                .andExpect(jsonPath("$.msg", containsString("Duplicate entry")))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
+
+
 }

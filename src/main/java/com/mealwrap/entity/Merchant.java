@@ -1,6 +1,7 @@
 package com.mealwrap.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,10 @@ public class Merchant {
     private String        password;
     private String        address;
     private Integer       rating;
+    @ApiModelProperty(dataType = "String", required = true, example = "2020-01-01 13:30:31")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createAt;
+    @ApiModelProperty(dataType = "String", required = true, example = "2020-01-01 13:30:31")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateAt;
     private byte[]        image;
