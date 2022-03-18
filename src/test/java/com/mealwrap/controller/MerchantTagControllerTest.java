@@ -32,6 +32,33 @@ class MerchantTagControllerTest {
     private       MockMvc mockMvc;
 
     @Test
+    void listByTagNameNoParams() throws Exception {
+        String url = baseUrl + "/tagname";
+        RequestBuilder request = MockMvcRequestBuilders.get(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+        mockMvc.perform(request)
+                .andExpect(status().is(400))
+                .andReturn();
+    }
+
+    @Test
+    void listByTagNameNotExist() throws Exception {
+        String url     = baseUrl + "/tagname";
+        String tagName = "chicken";
+        RequestBuilder request = MockMvcRequestBuilders.get(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("tagName", tagName);
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.SUCCESS.getCode()))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
+
+    @Test
     void listByTagName() throws Exception {
         String url     = baseUrl + "/tagname";
         String tagName = "Chicken";
