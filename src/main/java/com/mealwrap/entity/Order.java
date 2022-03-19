@@ -6,23 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("t_order")
-public class Order {
+public class Order implements Serializable {
+    private static final long          serialVersionUID = 3567653491060394673L;
     @TableId(type = IdType.AUTO)
-    private Integer       id;
-    private Integer       userId;
-    private Integer       merchantId;
-    private String        address;
-    private String        phone;
-    private Integer       paymentMethod;
+    private              Integer       id;
+    private              Integer       userId;
+    private              Integer       merchantId;
+    private              String        address;
+    private              String        phone;
+    private              Integer       paymentMethod;
     @ApiModelProperty(dataType = "String", required = true, example = "2020-01-01 13:30:31")
-    private LocalDateTime deliveryTime;
-    private Integer       deliveryMethod;
+    private              LocalDateTime deliveryTime;
+    private              Integer       deliveryMethod;
     private Double        totalPrice;
     private Double        deliveryFee;
     private Double        tax;

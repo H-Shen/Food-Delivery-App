@@ -7,7 +7,6 @@ docker-compose up -d
 docker logs -f mealwrap-springboot
 # to test with curl
 curl -X GET "http://localhost:18080/user/all" -H "accept: */*"
-# to test 
 # to quit and clean
 docker-compose down --rmi all
 ```

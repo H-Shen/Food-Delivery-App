@@ -85,6 +85,11 @@ public class OrderController {
         if (!(requestBody.get("userId") instanceof Integer)) {
             return Result.error(ResultEnum.BAD_REQUEST, "'userId' type mismatched");
         }
+        Integer userId = (Integer) requestBody.get("userId");
+        User    user   = userService.getById(userId);
+        if (user == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "user does not exist");
+        }
 
         if (!requestBody.containsKey("merchantId")) {
             return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'merchantId'");
@@ -94,6 +99,11 @@ public class OrderController {
         }
         if (!(requestBody.get("merchantId") instanceof Integer)) {
             return Result.error(ResultEnum.BAD_REQUEST, "'merchantId' type mismatched");
+        }
+        Integer  merchantId = (Integer) requestBody.get("merchantId");
+        Merchant merchant   = merchantService.getById(merchantId);
+        if (merchant == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "merchant does not exist");
         }
 
         if (!requestBody.containsKey("address")) {
@@ -123,7 +133,7 @@ public class OrderController {
             return Result.error(ResultEnum.BAD_REQUEST, "'paymentMethod' is null");
         }
         if (!(requestBody.get("paymentMethod") instanceof Integer)) {
-            return Result.error(ResultEnum.BAD_REQUEST, "'phone' type mismatched");
+            return Result.error(ResultEnum.BAD_REQUEST, "'paymentMethod' type mismatched");
         }
 
         if (!requestBody.containsKey("deliveryTime")) {
@@ -196,16 +206,6 @@ public class OrderController {
             return Result.error(ResultEnum.BAD_REQUEST, "'comment' type mismatched");
         }
 
-        Integer userId = (Integer) requestBody.get("userId");
-        User    user   = userService.getById(userId);
-        if (user == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "user does not exist");
-        }
-        Integer  merchantId = (Integer) requestBody.get("merchantId");
-        Merchant merchant   = merchantService.getById(merchantId);
-        if (merchant == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "merchant does not exist");
-        }
         try {
             final DateTimeFormatter formatter    = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime           deliveryTime = LocalDateTime.parse((String) requestBody.get("deliveryTime"), formatter);
