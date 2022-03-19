@@ -22,6 +22,9 @@ class UserServiceTest {
     @Resource
     private UserService userService;
 
+    @Resource
+    private RedisService redisService;
+
     @Test
     void list() {
         List<User> users = userService.list();

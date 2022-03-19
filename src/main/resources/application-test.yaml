@@ -14,7 +14,7 @@ spring:
     name: Mealwrap
   redis:
     timeout: 60000
-    database: 0
+    database: 1 # use database #1 to test
     host: 177.77.0.4
     port: 6379
 

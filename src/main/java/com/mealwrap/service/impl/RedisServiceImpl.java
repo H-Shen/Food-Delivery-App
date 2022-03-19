@@ -3,6 +3,7 @@ package com.mealwrap.service.impl;
 import com.mealwrap.common.Result;
 import com.mealwrap.common.ResultEnum;
 import com.mealwrap.service.RedisService;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,14 @@ public class RedisServiceImpl implements RedisService {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Override
+    public void flushDb() {
+        stringRedisTemplate.execute((RedisCallback<Object>) connection -> {
+            connection.flushDb();
+            return "ok";
+        });
+    }
 
     @Override
     public Result<List<String>> getKeys() {

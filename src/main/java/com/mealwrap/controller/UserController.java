@@ -29,28 +29,36 @@ public class UserController {
 
     @ApiOperation("Login with phone and password and return a token")
     @PostMapping("/login")
-    public Result<String> login(@RequestBody HashMap<String, Object> args) {
-        if (args == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "args is null");
+    public Result<String> login(@RequestBody HashMap<String, Object> requestBody) {
+        if (requestBody == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body is null");
         }
-        if (!args.containsKey("phone")) {
-            return Result.error(ResultEnum.BAD_REQUEST, "arg:phone cannot be found");
+        if (!requestBody.containsKey("phone")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:phone cannot be found");
         }
-        if (args.get("phone") == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "arg:phone is null");
+        if (requestBody.get("phone") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:phone is null");
         }
-        if (!args.containsKey("password")) {
-            return Result.error(ResultEnum.BAD_REQUEST, "arg:password cannot be found");
+        if (!((requestBody.get("phone")) instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:phone type mismatched");
         }
-        if (args.get("password") == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "arg:password is null");
+
+        if (!requestBody.containsKey("password")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:password cannot be found");
         }
-        String phone = (String) args.get("phone");
+        if (requestBody.get("password") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:password is null");
+        }
+        if (!((requestBody.get("password")) instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:password type mismatched");
+        }
+
+        String phone = (String) requestBody.get("phone");
         User   user  = userService.getOne(new QueryWrapper<User>().eq("phone", phone));
         if (user == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "phone cannot be found");
         }
-        String rawPassword = (String) args.get("password");
+        String rawPassword = (String) requestBody.get("password");
         if (!new BCryptPasswordEncoder().matches(rawPassword, user.getPassword())) {
             return Result.error(ResultEnum.BAD_REQUEST, "password not matched");
         }
@@ -70,6 +78,33 @@ public class UserController {
             return Result.error(ResultEnum.BAD_REQUEST, "failed to insert the token to redis");
         }
         return Result.success(token, "user successfully logged in");
+    }
+
+    @ApiOperation("Logout with token")
+    @PostMapping("/logout")
+    public Result<Void> logout(@RequestBody HashMap<String, Object> requestBody) {
+        if (requestBody == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body is null");
+        }
+        if (!requestBody.containsKey("token")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:token cannot be found");
+        }
+        if (requestBody.get("token") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:token is null");
+        }
+        if (!((requestBody.get("token")) instanceof String)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body:token type mismatched");
+        }
+        String       token         = (String) requestBody.get("token");
+        Result<Void> tokenNotExist = redisService.notExist(token);
+        if (tokenNotExist.getCode().equals(ResultEnum.SUCCESS.getCode())) {
+            return Result.error(ResultEnum.BAD_REQUEST, "token does not exist in redis");
+        }
+        Result<Void> deleteToken = redisService.delete(token);
+        if (!deleteToken.getCode().equals(ResultEnum.SUCCESS.getCode())) {
+            return Result.error(ResultEnum.BAD_REQUEST, "failed to delete the token in redis");
+        }
+        return Result.success();
     }
 
     @ApiOperation("List all users")

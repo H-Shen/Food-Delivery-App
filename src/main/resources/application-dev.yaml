@@ -16,7 +16,6 @@ spring:
     timeout: 60000
     database: 0
     port: 6379
-  # image upload limitation
   servlet:
     multipart:
       enabled: true

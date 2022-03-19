@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface RedisService {
 
+    void flushDb();
+
     Result<List<String>> getKeys();
 
     Result<Void> insert(String key, String val);
