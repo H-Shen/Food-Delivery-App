@@ -437,4 +437,71 @@ class OrderControllerTest {
         System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
     }
 
+    @Test
+    void insertNoDeliveryTime() throws Exception {
+        String              url         = baseUrl + "/insert";
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("userId", 1);
+        requestBody.put("merchantId", 1);
+        requestBody.put("address", "address1");
+        requestBody.put("phone", "6135550120");
+        requestBody.put("paymentMethod", 1);
+        RequestBuilder request = MockMvcRequestBuilders.post(url)
+                .content(new ObjectMapper().writeValueAsString(requestBody))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.BAD_REQUEST.getCode()))
+                .andExpect(jsonPath("$.msg").value("request body does not contain 'deliveryTime'"))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
+
+    @Test
+    void insertNullDeliveryTime() throws Exception {
+        String              url         = baseUrl + "/insert";
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("userId", 1);
+        requestBody.put("merchantId", 1);
+        requestBody.put("address", "address1");
+        requestBody.put("phone", "6135550120");
+        requestBody.put("paymentMethod", 1);
+        requestBody.put("deliveryTime", null);
+        RequestBuilder request = MockMvcRequestBuilders.post(url)
+                .content(new ObjectMapper().writeValueAsString(requestBody))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.BAD_REQUEST.getCode()))
+                .andExpect(jsonPath("$.msg").value("'deliveryTime' is null"))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
+
+    @Test
+    void insertDeliveryTimeTypeMismatched() throws Exception {
+        String              url         = baseUrl + "/insert";
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("userId", 1);
+        requestBody.put("merchantId", 1);
+        requestBody.put("address", "address1");
+        requestBody.put("phone", "6135550120");
+        requestBody.put("paymentMethod", 1);
+        requestBody.put("deliveryTime", 1);
+        RequestBuilder request = MockMvcRequestBuilders.post(url)
+                .content(new ObjectMapper().writeValueAsString(requestBody))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.BAD_REQUEST.getCode()))
+                .andExpect(jsonPath("$.msg").value("'deliveryTime' type mismatched"))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
 }

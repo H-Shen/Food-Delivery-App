@@ -16,7 +16,9 @@ public class JwtUtils {
 
     public final static String SECRET_KEY = "mexcKtZSTfks2aNSNzq3XQ014VhC7rnfG36bTdRLls4=";
 
-    // generate token by the ID
+    /**
+     * generate token by the User ID
+     **/
     public static String getToken(Integer id) {
         if (id == null) {
             return null;
@@ -30,7 +32,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    // return the user ID from the token
+    /** fetch the user ID from the token **/
     public static Integer getUserId(String token) {
         if (token == null) {
             return null;
