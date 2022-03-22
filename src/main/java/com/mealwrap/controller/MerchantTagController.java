@@ -38,5 +38,4 @@ public class MerchantTagController {
         }
         return Result.success(merchantList);
     }
-
 }
