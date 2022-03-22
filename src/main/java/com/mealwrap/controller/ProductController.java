@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/product")
@@ -26,7 +27,7 @@ public class ProductController {
 
     @ApiOperation("List all products of a merchant without images by giving merchant id")
     @GetMapping("/merchant_id")
-    public Result<List<Product>> listByMerchantId(
+    public Result<List<Map<String, Object>>> listByMerchantId(
             @RequestParam Integer merchantId) {
         if (merchantId == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "merchant id is null");
@@ -35,20 +36,22 @@ public class ProductController {
         if (merchant == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "merchant id does not exist");
         }
-        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("id", "merchant_id", "name", "price", "percent_off")
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<Product>().select(Product.class,
+                e -> !"image".equals(e.getColumn()))
                 .eq("merchant_id", merchantId);
-        List<Product> products = productService.list(queryWrapper);
+        List<Map<String, Object>> products = productService.listMaps(queryWrapper);
         if (products == null) {
             return Result.error(ResultEnum.BAD_REQUEST);
         }
         return Result.success(products);
     }
 
-    @ApiOperation("List all products")
+    @ApiOperation("List all products without images")
     @GetMapping("/all")
-    public Result<List<Product>> list() {
-        List<Product> products = productService.list();
+    public Result<List<Map<String, Object>>> list() {
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<Product>().select(Product.class,
+                e -> !"image".equals(e.getColumn()));
+        List<Map<String, Object>> products = productService.listMaps(queryWrapper);
         if (products == null) {
             return Result.error(ResultEnum.BAD_REQUEST);
         }
