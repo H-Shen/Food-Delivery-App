@@ -3,7 +3,6 @@ package com.mealwrap.controller;
 import com.mealwrap.common.Result;
 import com.mealwrap.common.ResultEnum;
 import com.mealwrap.entity.Merchant;
-import com.mealwrap.service.MerchantService;
 import com.mealwrap.service.MerchantTagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,13 +16,12 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@RequestMapping("/merchanttag")
+@RequestMapping("api/v1/merchanttag")
 @Api(tags = "Merchant Tag Controller")
 public class MerchantTagController {
+
     @Resource
     private MerchantTagService merchantTagService;
-    @Resource
-    private MerchantService    merchantService;
 
     @ApiOperation("Get all merchants with the tag name without merchants' images")
     @GetMapping("/tagname")

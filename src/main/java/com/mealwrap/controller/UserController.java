@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/v1/user")
 @Api(tags = "User Controller")
 public class UserController {
 

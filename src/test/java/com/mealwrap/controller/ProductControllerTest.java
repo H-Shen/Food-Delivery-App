@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Rollback
 class ProductControllerTest {
 
-    private final String  baseUrl = "/product";
+    private final String  baseUrl = "/api/v1/product";
     @Resource
     private       MockMvc mockMvc;
 

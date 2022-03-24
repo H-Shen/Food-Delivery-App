@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/merchant")
+@RequestMapping("api/v1/merchant")
 @Api(tags = "Merchant Controller")
 public class MerchantController {
     @Resource

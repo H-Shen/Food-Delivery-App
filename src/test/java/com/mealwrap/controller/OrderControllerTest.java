@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Rollback
 class OrderControllerTest {
 
-    private final String  baseUrl = "/order";
+    private final String  baseUrl = "/api/v1/order";
     @Resource
     private       MockMvc mockMvc;
 

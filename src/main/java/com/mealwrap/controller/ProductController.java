@@ -9,15 +9,20 @@ import com.mealwrap.service.MerchantService;
 import com.mealwrap.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("api/v1/product")
 @Api(tags = "Product Controller")
 public class ProductController {
     @Resource
@@ -60,24 +65,25 @@ public class ProductController {
 
     @ApiOperation("Get an image of a product")
     @GetMapping(value = "/image")
-    public Result<Byte[]> getImage(
-            @RequestParam("id") Integer id) {
+    public ResponseEntity<byte[]> getImage(
+            @RequestParam("id") @NotNull Integer id) {
         if (id == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "id is null");
+            return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
         }
         Product product = productService.getById(id);
         if (product == null) {
-            return Result.error(ResultEnum.BAD_REQUEST, "product cannot be found");
+            return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
         }
-        // todo
-        return null;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(product.getImage(), httpHeaders, HttpStatus.OK);
     }
 
     @ApiOperation("Upload an image of a product")
     @PostMapping(value = "/upload")
     public Result<Void> upload(
-            @RequestParam("id") Integer id,
-            @RequestPart("file") MultipartFile file) {
+            @RequestParam("id") @NotNull Integer id,
+            @RequestPart("file") @NotNull MultipartFile file) {
         if (id == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "id is null");
         }

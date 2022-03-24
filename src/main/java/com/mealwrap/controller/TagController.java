@@ -6,15 +6,19 @@ import com.mealwrap.entity.Tag;
 import com.mealwrap.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tag")
+@RequestMapping("api/v1/tag")
 @Api(tags = "Tag Controller")
 public class TagController {
 
@@ -29,5 +33,48 @@ public class TagController {
             return Result.error(ResultEnum.BAD_REQUEST);
         }
         return Result.success(tags);
+    }
+
+    @ApiOperation("Get image of a tag")
+    @GetMapping("/image")
+    public ResponseEntity<byte[]> getImage(
+            @RequestParam("id") @NotNull Integer id) {
+        if (id == null) {
+            return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
+        }
+        Tag tag = tagService.getById(id);
+        if (tag == null) {
+            return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(tag.getImage(), httpHeaders, HttpStatus.OK);
+    }
+
+    @ApiOperation("Upload an image of a tag")
+    @PostMapping(value = "/upload")
+    public Result<Void> upload(
+            @RequestParam("id") @NotNull Integer id,
+            @RequestPart("file") @NotNull MultipartFile file) {
+        if (id == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "id is null");
+        }
+        if (file == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "upload file is null");
+        }
+        Tag tag = tagService.getById(id);
+        if (tag == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "tag cannot be found");
+        }
+        try {
+            byte[] bytes = file.getBytes();
+            tag.setImage(bytes);
+            if (!tagService.updateById(tag)) {
+                return Result.error(ResultEnum.BAD_REQUEST, "failed to insert the image");
+            }
+            return Result.success("file uploaded successfully");
+        } catch (Exception e) {
+            return Result.error(ResultEnum.BAD_REQUEST, e.getMessage());
+        }
     }
 }

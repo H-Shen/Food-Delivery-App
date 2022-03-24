@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/shoppingcart")
+@RequestMapping("api/v1/shoppingcart")
 @Api(tags = "Shopping Cart Controller")
 public class ShoppingCartController {
 

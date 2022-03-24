@@ -52,8 +52,8 @@ DROP TABLE IF EXISTS t_tag;
 CREATE TABLE t_tag
 (
     `id`    INT AUTO_INCREMENT NOT NULL,
-    `name`  VARCHAR(64)        NOT NULL,
-    `image` TEXT               NULL DEFAULT NULL,
+    `name`  VARCHAR(64) NOT NULL,
+    `image` LONGBLOB NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`name`)
 ) ENGINE = InnoDB
