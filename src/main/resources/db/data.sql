@@ -26,18 +26,18 @@ VALUES ('6135550143', '$2a$10$lwhSaNuNaLJxn48HKK1KDeHzREy6jv3qikRIrIBOozoyJJqIQv
 
 DELETE
 FROM t_product;
-INSERT INTO t_product (merchant_id, name, price, percent_off)
-VALUES (4, 'Hotdog', 5.00, 10),
-       (4, 'Hamburger', 4.60, 12),
-       (5, 'Chinese Steam Rice', 4.70, 14),
-       (6, 'Vietnamese Pho', 4.80, 17),
-       (7, 'Taiwan special noodles', 4.90, 90),
-       (8, 'Bubble Tea', 4.10, 5),
-       (8, 'Ramen', 4.20, 44),
-       (9, 'Beer', 4.40, 10),
-       (9, 'Cola', 4.00, 10),
-       (9, 'Wine', 4.60, 12),
-       (10, 'Chicken Wings', 4.90, 14);
+INSERT INTO t_product (merchant_id, name, price, percent_off, description)
+VALUES (4, 'Hotdog', 5.00, 10, 'description1'),
+       (4, 'Hamburger', 4.60, 12, 'description2'),
+       (5, 'Chinese Steam Rice', 4.70, 14, 'description3'),
+       (6, 'Vietnamese Pho', 4.80, 17, 'description4'),
+       (7, 'Taiwan special noodles', 4.90, 90, 'description5'),
+       (8, 'Bubble Tea', 4.10, 5, 'description6'),
+       (8, 'Ramen', 4.20, 44, 'description7'),
+       (9, 'Beer', 4.40, 10, 'description8'),
+       (9, 'Cola', 4.00, 10, 'description9'),
+       (9, 'Wine', 4.60, 12, 'description10'),
+       (10, 'Chicken Wings', 4.90, 14, 'description11');
 
 DELETE
 FROM t_merchant;

@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("t_product")
-@JsonPropertyOrder({"id", "merchantId", "name", "price", "percentOff", "image"})
+@JsonPropertyOrder({"id", "merchantId", "name", "price", "percentOff", "description", "image"})
 public class Product implements Serializable {
     private static final long    serialVersionUID = 3567653491060394674L;
     @TableId(type = IdType.AUTO)
@@ -23,5 +23,6 @@ public class Product implements Serializable {
     private              String  name;
     private              Double  price;
     private              Integer percentOff;
+    private              String  description;
     private              byte[]  image;
 }

@@ -37,11 +37,12 @@ DROP TABLE IF EXISTS t_product;
 CREATE TABLE t_product
 (
     `id`          INT AUTO_INCREMENT NOT NULL,
-    `merchant_id` INT NOT NULL,
-    `name`        VARCHAR(64) NULL,
-    `price`       DOUBLE NULL,
-    `percent_off` INT NULL,
-    `image`       LONGBLOB NULL DEFAULT NULL,
+    `merchant_id` INT                NOT NULL,
+    `name`        VARCHAR(64)        NULL,
+    `price`       DOUBLE             NULL,
+    `percent_off` INT                NULL,
+    `description` VARCHAR(512)       NULL,
+    `image`       LONGBLOB           NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`merchant_id`, `name`) /** each product of one merchant has a unique name **/
 ) ENGINE = InnoDB
