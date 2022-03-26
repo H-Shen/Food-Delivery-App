@@ -19,14 +19,16 @@ CREATE TABLE t_user
 DROP TABLE IF EXISTS t_merchant;
 CREATE TABLE t_merchant
 (
-    `id`        INT AUTO_INCREMENT NOT NULL,
-    `phone`     VARCHAR(20)  NOT NULL,
-    `password`  VARCHAR(128) NOT NULL COMMENT 'encrypted password',
-    `address`   VARCHAR(256) NULL,
-    `rating`    INT DEFAULT 0, /** rating from 0 to 10 **/
-    `create_at` DATETIME NULL,
-    `update_at` DATETIME NULL,
-    `image`     LONGBLOB NULL DEFAULT NULL,
+    `id`          INT AUTO_INCREMENT NOT NULL,
+    `phone`       VARCHAR(20)        NOT NULL,
+    `password`    VARCHAR(128)       NOT NULL COMMENT 'encrypted password',
+    `name`        VARCHAR(128)       NULL,
+    `description` VARCHAR(512)       NULL,
+    `address`     VARCHAR(256)       NULL,
+    `rating`      INT                     DEFAULT 0, /** rating from 0 to 10 **/
+    `create_at`   DATETIME           NULL,
+    `update_at`   DATETIME           NULL,
+    `image`       LONGBLOB           NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `phone` (`phone`)
 ) ENGINE = InnoDB

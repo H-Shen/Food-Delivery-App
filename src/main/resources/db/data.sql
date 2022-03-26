@@ -41,18 +41,29 @@ VALUES (4, 'Hotdog', 5.00, 10, 'description1'),
 
 DELETE
 FROM t_merchant;
-INSERT INTO t_merchant (phone, password, address, create_at, update_at)
-VALUES ('6135550120', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address1', NOW(), NOW()),
-       ('6135550121', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address2', NOW(), NOW()),
-       ('6135550122', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address3', NOW(), NOW()),
-       ('6135550123', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address4', NOW(), NOW()),
-       ('6135550124', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address5', NOW(), NOW()),
-       ('6135550125', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address6', NOW(), NOW()),
-       ('6135550127', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address7', NOW(), NOW()),
-       ('6135550128', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address8', NOW(), NOW()),
-       ('6135550129', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address9', NOW(), NOW()),
-       ('6135550130', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address10', NOW(), NOW()),
-       ('6135550131', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address11', NOW(), NOW());
+INSERT INTO t_merchant (phone, password, address, create_at, update_at, name, description)
+VALUES ('6135550120', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address1', NOW(), NOW(),
+        'Hamburger King', 'lalalalalalalala'),
+       ('6135550121', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address2', NOW(), NOW(),
+        'Domino', 'lalalalalalalala'),
+       ('6135550122', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address3', NOW(), NOW(),
+        'StarBucks', 'lalalalalalalala'),
+       ('6135550123', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address4', NOW(), NOW(),
+        'Korean BBQ', 'lalalalalalalala'),
+       ('6135550124', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address5', NOW(), NOW(),
+        'King of Chicken', 'lalalalalalalala'),
+       ('6135550125', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address6', NOW(), NOW(),
+        'Salad Queen', 'lalalalalalalala'),
+       ('6135550127', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address7', NOW(), NOW(),
+        'Quesada Burritos & Tacos', 'lalalalalalalala'),
+       ('6135550128', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address8', NOW(), NOW(),
+        'Subway', 'lalalalalalalala'),
+       ('6135550129', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address9', NOW(), NOW(),
+        'KFC', 'lalalalalalalala'),
+       ('6135550130', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address10', NOW(), NOW(),
+        'Mcdonald\'s', 'lalalalalalalala'),
+       ('6135550131', '$2a$10$saXxj3xK.QHygAQrPX1uKeZalzf4f3j1ejmsoSnrJIFD9HGLsRH.S', 'address11', NOW(), NOW(),
+        'Hamburger King2', 'lalalalalalalala');
 
 DELETE
 FROM t_merchant_tag;
