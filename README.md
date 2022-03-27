@@ -1,4 +1,6 @@
 ```shell
+# to clean all cache before building (optional)
+echo 'y' | docker system prune -a
 # to build:
 docker-compose build --no-cache
 # to run:

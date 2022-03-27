@@ -13,6 +13,4 @@ import javax.annotation.Resource;
 public class MerchantController {
     @Resource
     private MerchantService merchantService;
-
-
 }
