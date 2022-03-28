@@ -1,5 +1,6 @@
 package com.mealwrap.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mealwrap.common.Result;
 import com.mealwrap.common.ResultEnum;
 import com.mealwrap.entity.Tag;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/tag")
@@ -25,10 +27,12 @@ public class TagController {
     @Resource
     TagService tagService;
 
-    @ApiOperation("List all tag")
+    @ApiOperation("List all tag without images")
     @GetMapping("/all")
-    public Result<List<Tag>> list() {
-        List<Tag> tags = tagService.list();
+    public Result<List<Map<String, Object>>> listWithoutImages() {
+        QueryWrapper<Tag> queryWrapper = new QueryWrapper<Tag>().select(Tag.class,
+                e -> !"image".equals(e.getColumn()));
+        List<Map<String, Object>> tags = tagService.listMaps(queryWrapper);
         if (tags == null) {
             return Result.error(ResultEnum.BAD_REQUEST);
         }

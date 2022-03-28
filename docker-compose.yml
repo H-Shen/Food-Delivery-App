@@ -21,6 +21,8 @@ services:
       - "MYSQL_DATABASE=mealwrap"
     ports:
       - "13306:3306"
+    volumes:
+      - ./cache/mysql:/var/lib/mysql
     networks:
       backend_network:
         ipv4_address: 177.77.0.2

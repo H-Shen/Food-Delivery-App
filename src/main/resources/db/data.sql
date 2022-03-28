@@ -69,11 +69,13 @@ DELETE
 FROM t_merchant_tag;
 INSERT INTO t_merchant_tag (merchant_id, tag_name)
 VALUES (1, 'Chicken'),
+       (1, 'Hamburger or Breakfast'),
        (2, 'Alcohol'),
        (3, 'Tea'),
        (4, 'Coffee'),
        (5, 'Chinese Food'),
        (6, 'Mexican Food'),
+       (7, 'Chicken'),
        (7, 'Hamburger or Breakfast');
 
 DELETE

@@ -25,31 +25,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @Rollback
-class MerchantTagControllerTest {
+public class MerchantControllerTest {
 
-    private final String  baseUrl = "/api/v1/merchanttag";
+    private final String  baseUrl = "/api/v1/merchant";
     @Resource
     private       MockMvc mockMvc;
 
     @Test
-    void listByTagNameNoParams() throws Exception {
-        String url = baseUrl + "/tagname";
+    void listWithoutImages() throws Exception {
+        String url = baseUrl + "/all";
         RequestBuilder request = MockMvcRequestBuilders.get(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
-        mockMvc.perform(request)
-                .andExpect(status().is(400))
-                .andReturn();
-    }
-
-    @Test
-    void listByTagNameNotExist() throws Exception {
-        String url     = baseUrl + "/tagname";
-        String tagName = "chicken";
-        RequestBuilder request = MockMvcRequestBuilders.get(url)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("tagName", tagName);
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultEnum.SUCCESS.getCode()))
@@ -59,16 +46,32 @@ class MerchantTagControllerTest {
     }
 
     @Test
-    void listByTagName() throws Exception {
-        String url     = baseUrl + "/tagname";
-        String tagName = "Chicken";
+    void getAMerchantWithoutImage() throws Exception {
+        String  url        = baseUrl + "/id";
+        Integer merchantId = 1;
         RequestBuilder request = MockMvcRequestBuilders.get(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("tagName", tagName);
+                .param("id", String.valueOf(merchantId));
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultEnum.SUCCESS.getCode()))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding("UTF-8");
+        System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
+    }
+
+    @Test
+    void getAMerchantWithoutImageNotExist() throws Exception {
+        String  url        = baseUrl + "/id";
+        Integer merchantId = -1;
+        RequestBuilder request = MockMvcRequestBuilders.get(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("id", String.valueOf(merchantId));
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultEnum.BAD_REQUEST.getCode()))
                 .andReturn();
         mvcResult.getResponse().setCharacterEncoding("UTF-8");
         System.out.print(JSONUtil.toJsonPrettyStr(mvcResult.getResponse().getContentAsString()));
