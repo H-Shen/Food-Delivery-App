@@ -12,4 +12,9 @@ import javax.annotation.Resource;
 public class ShoppingCartServiceImpl extends ServiceImpl<ShoppingCartMapper, ShoppingCart> implements ShoppingCartService {
     @Resource
     private ShoppingCartMapper shoppingCartMapper;
+
+    @Override
+    public void removeByMerchantId(Integer userId, Integer merchantId) {
+        shoppingCartMapper.removeByMerchantId(userId, merchantId);
+    }
 }

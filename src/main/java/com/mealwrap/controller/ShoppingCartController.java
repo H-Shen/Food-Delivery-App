@@ -6,6 +6,7 @@ import com.mealwrap.common.ResultEnum;
 import com.mealwrap.entity.Product;
 import com.mealwrap.entity.ShoppingCart;
 import com.mealwrap.entity.User;
+import com.mealwrap.service.MerchantService;
 import com.mealwrap.service.ProductService;
 import com.mealwrap.service.ShoppingCartService;
 import com.mealwrap.service.UserService;
@@ -33,6 +34,53 @@ public class ShoppingCartController {
 
     @Resource
     private ProductService productService;
+
+    @Resource
+    private MerchantService merchantService;
+
+    @ApiOperation("Remove all items of a user by giving user ID and merchant ID")
+    @PostMapping("/removebymerchantid")
+    public Result<Void> removeByMerchantId(
+            @RequestBody @NotNull Map<String, Object> requestBody
+    ) {
+        if (requestBody == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body is null");
+        }
+        // User ID must be given
+        if (!requestBody.containsKey("userId")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'userId'");
+        }
+        if (requestBody.get("userId") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'userId' is null");
+        }
+        if (!(requestBody.get("userId") instanceof Integer)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'userId' type mismatched");
+        }
+        Integer userId = (Integer) requestBody.get("userId");
+        if (userService.getById(userId) == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "user does not exist");
+        }
+        // Merchant ID must be given
+        if (!requestBody.containsKey("merchantId")) {
+            return Result.error(ResultEnum.BAD_REQUEST, "request body does not contain 'merchantId'");
+        }
+        if (requestBody.get("merchantId") == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'merchantId' is null");
+        }
+        if (!(requestBody.get("merchantId") instanceof Integer)) {
+            return Result.error(ResultEnum.BAD_REQUEST, "'merchantId' type mismatched");
+        }
+        Integer merchantId = (Integer) requestBody.get("merchantId");
+        if (merchantService.getById(merchantId) == null) {
+            return Result.error(ResultEnum.BAD_REQUEST, "merchant does not exist");
+        }
+        try {
+            shoppingCartService.removeByMerchantId(userId, merchantId);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error(ResultEnum.BAD_REQUEST, e.getMessage());
+        }
+    }
 
     @ApiOperation("List all products in the shopping cart of a user by giving user ID")
     @GetMapping("/id")
@@ -67,8 +115,9 @@ public class ShoppingCartController {
                     return Result.error(ResultEnum.BAD_REQUEST, "failed to obtain items in the shopping cart");
                 }
                 for (int i = 0; i < itemsWithProductInfo.size(); ++i) {
-                    Map<String, Object> temp = itemsWithProductInfo.get(i);
-                    temp.put("quantity", productId2Quantity.get(itemsWithProductInfo.get(i).get("id")));
+                    Map<String, Object> temp     = itemsWithProductInfo.get(i);
+                    Integer             quantity = (Integer) itemsWithProductInfo.get(i).get("id");
+                    temp.put("quantity", productId2Quantity.get(quantity));
                     itemsWithProductInfo.set(i, temp);
                 }
             }
