@@ -33,7 +33,7 @@ public class ProductController {
     @ApiOperation("List all products of a merchant without images by giving merchant id")
     @GetMapping("/merchant_id")
     public Result<List<Map<String, Object>>> listByMerchantId(
-            @RequestParam Integer merchantId) {
+            @RequestParam("merchantId") @NotNull Integer merchantId) {
         if (merchantId == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "merchant id is null");
         }

@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class UserController {
 
     @ApiOperation("Login with phone and password and return a token")
     @PostMapping("/login")
-    public Result<Map<String, Object>> login(@RequestBody HashMap<String, Object> requestBody) {
+    public Result<Map<String, Object>> login(@RequestBody @NotNull HashMap<String, Object> requestBody) {
         if (requestBody == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "request body is null");
         }
@@ -86,7 +87,7 @@ public class UserController {
 
     @ApiOperation("Logout with token")
     @PostMapping("/logout")
-    public Result<Void> logout(@RequestBody HashMap<String, Object> requestBody) {
+    public Result<Void> logout(@RequestBody @NotNull HashMap<String, Object> requestBody) {
         if (requestBody == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "request body is null");
         }
