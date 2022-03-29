@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/v1/product")
 @Api(tags = "Product Controller")
 public class ProductController {

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/v1/merchant")
 @Api(tags = "Merchant Controller")
 public class MerchantController {

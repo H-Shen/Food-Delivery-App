@@ -10,10 +10,7 @@ import com.mealwrap.service.MerchantService;
 import com.mealwrap.service.MerchantTagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
@@ -22,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/v1/merchanttag")
 @Api(tags = "Merchant Tag Controller")
 public class MerchantTagController {
