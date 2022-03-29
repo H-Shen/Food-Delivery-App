@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -29,7 +30,7 @@ public class UserController {
 
     @ApiOperation("Login with phone and password and return a token")
     @PostMapping("/login")
-    public Result<String> login(@RequestBody HashMap<String, Object> requestBody) {
+    public Result<Map<String, Object>> login(@RequestBody HashMap<String, Object> requestBody) {
         if (requestBody == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "request body is null");
         }
@@ -77,7 +78,10 @@ public class UserController {
         if (!insertToken.getCode().equals(ResultEnum.SUCCESS.getCode())) {
             return Result.error(ResultEnum.BAD_REQUEST, "failed to insert the token to redis");
         }
-        return Result.success(token, "user successfully logged in");
+        Map<String, Object> result = new HashMap<>();
+        result.put("id", user.getId());
+        result.put("token", token);
+        return Result.success(result, "user successfully logged in");
     }
 
     @ApiOperation("Logout with token")

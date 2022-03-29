@@ -3,6 +3,7 @@ package com.mealwrap.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mealwrap.common.Result;
 import com.mealwrap.common.ResultEnum;
+import com.mealwrap.entity.Product;
 import com.mealwrap.entity.ShoppingCart;
 import com.mealwrap.entity.User;
 import com.mealwrap.service.ProductService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +34,9 @@ public class ShoppingCartController {
     @Resource
     private ProductService productService;
 
-    @ApiOperation("List all products in the shopping cart of a user")
+    @ApiOperation("List all products in the shopping cart of a user by giving user ID")
     @GetMapping("/id")
-    public Result<List<ShoppingCart>> listById(
+    public Result<List<Map<String, Object>>> listById(
             @RequestParam("id") @NotNull Integer id) {
         if (id == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "id is null");
@@ -43,14 +45,34 @@ public class ShoppingCartController {
         if (user == null) {
             return Result.error(ResultEnum.BAD_REQUEST, "user id does not exist");
         }
-        Map<String, Object> args = new HashMap<>();
-        args.put("user_id", id);
         try {
-            List<ShoppingCart> items = shoppingCartService.listByMap(args);
+            List<Map<String, Object>> items =
+                    shoppingCartService.listMaps(new QueryWrapper<ShoppingCart>().select(ShoppingCart.class,
+                            e -> !"user_id".equals(e.getColumn())).eq("user_id", id));
             if (items == null) {
                 return Result.error(ResultEnum.BAD_REQUEST, "failed to obtain items in the shopping cart");
             }
-            return Result.success(items);
+            items.forEach(System.out::println);
+            List<Map<String, Object>> itemsWithProductInfo = new ArrayList<>();
+            if (!items.isEmpty()) {
+                List<Integer>         productIdList      = new ArrayList<>();
+                Map<Integer, Integer> productId2Quantity = new HashMap<>();
+                for (Map<String, Object> item : items) {
+                    productIdList.add((Integer) item.get("productId"));
+                    productId2Quantity.put((Integer) item.get("productId"), (Integer) item.get("quantity"));
+                }
+                itemsWithProductInfo =
+                        productService.listMaps(new QueryWrapper<Product>().select(Product.class,
+                                e -> !"image".equals(e.getColumn())).in("id", productIdList));
+                if (itemsWithProductInfo == null) {
+                    return Result.error(ResultEnum.BAD_REQUEST, "failed to obtain items in the shopping cart");
+                }
+                for (Map<String, Object> item : itemsWithProductInfo) {
+                    Integer productId = (Integer) item.get("productId");
+                    item.put("quantity", productId2Quantity.get(productId));
+                }
+            }
+            return Result.success(itemsWithProductInfo);
         } catch (Exception e) {
             return Result.error(ResultEnum.BAD_REQUEST, e.getMessage());
         }
