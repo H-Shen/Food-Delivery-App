@@ -52,7 +52,6 @@ public class ShoppingCartController {
             if (items == null) {
                 return Result.error(ResultEnum.BAD_REQUEST, "failed to obtain items in the shopping cart");
             }
-            items.forEach(System.out::println);
             List<Map<String, Object>> itemsWithProductInfo = new ArrayList<>();
             if (!items.isEmpty()) {
                 List<Integer>         productIdList      = new ArrayList<>();
@@ -67,9 +66,10 @@ public class ShoppingCartController {
                 if (itemsWithProductInfo == null) {
                     return Result.error(ResultEnum.BAD_REQUEST, "failed to obtain items in the shopping cart");
                 }
-                for (Map<String, Object> item : itemsWithProductInfo) {
-                    Integer productId = (Integer) item.get("productId");
-                    item.put("quantity", productId2Quantity.get(productId));
+                for (int i = 0; i < itemsWithProductInfo.size(); ++i) {
+                    Map<String, Object> temp = itemsWithProductInfo.get(i);
+                    temp.put("quantity", productId2Quantity.get(itemsWithProductInfo.get(i).get("id")));
+                    itemsWithProductInfo.set(i, temp);
                 }
             }
             return Result.success(itemsWithProductInfo);
