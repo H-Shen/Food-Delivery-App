@@ -19,6 +19,6 @@ public interface ShoppingCartMapper extends BaseMapper<ShoppingCart> {
             "             where t_shopping_cart.user_id = #{userId}\n" +
             "               and t_shopping_cart.product_id = t_product.id\n" +
             "               and t_product.merchant_id = #{merchantId}) temp)")
-    void removeByMerchantId(Integer userId, Integer merchantId);
+    int removeByMerchantId(Integer userId, Integer merchantId);
 
 }

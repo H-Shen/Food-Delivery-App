@@ -14,7 +14,7 @@ public class ShoppingCartServiceImpl extends ServiceImpl<ShoppingCartMapper, Sho
     private ShoppingCartMapper shoppingCartMapper;
 
     @Override
-    public void removeByMerchantId(Integer userId, Integer merchantId) {
-        shoppingCartMapper.removeByMerchantId(userId, merchantId);
+    public int removeByMerchantId(Integer userId, Integer merchantId) {
+        return shoppingCartMapper.removeByMerchantId(userId, merchantId);
     }
 }

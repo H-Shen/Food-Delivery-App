@@ -5,5 +5,5 @@ import com.mealwrap.entity.ShoppingCart;
 
 public interface ShoppingCartService extends IService<ShoppingCart> {
 
-    void removeByMerchantId(Integer userId, Integer merchantId);
+    int removeByMerchantId(Integer userId, Integer merchantId);
 }
