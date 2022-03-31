@@ -1,5 +1,6 @@
 package com.mealwrap.common;
 
+import com.mealwrap.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,15 +20,18 @@ public class JwtUtils {
     /**
      * generate token by the User ID
      **/
-    public static String getToken(Integer id) {
-        if (id == null) {
+    public static String getToken(User user) {
+        if (user == null) {
             return null;
         }
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
         Key    signingkey        = new SecretKeySpec(apiKeySecretBytes, SIGNATURE_ALGORITHM.getJcaName());
         return Jwts.builder()
-                .setSubject(String.valueOf(id))
-                .claim("id", id)
+                .setSubject(String.valueOf(user.getId()))
+                .claim("id", user.getId())
+                .claim("username", user.getUsername())
+                .claim("phone", user.getPhone())
+                .claim("address", user.getAddress())
                 .signWith(SIGNATURE_ALGORITHM, signingkey)
                 .compact();
     }

@@ -377,6 +377,7 @@ public class OrderController {
             }
             order.setComment((String) requestBody.get("comment"));
         }
+        // Update 'updateAt'
         order.setUpdateAt(null);
         try {
             if (!orderService.updateById(order)) {

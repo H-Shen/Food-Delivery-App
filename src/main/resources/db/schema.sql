@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS t_user;
 CREATE TABLE t_user
 (
     `id`        INT AUTO_INCREMENT NOT NULL,
+    `username`  VARCHAR(128)       NULL,
     `phone`     VARCHAR(20)        NOT NULL,
     `password`  VARCHAR(128)       NOT NULL COMMENT 'encrypted password',
     `address`   VARCHAR(256)       NULL,

@@ -14,11 +14,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("t_user")
-@JsonPropertyOrder({"id", "phone", "password", "address", "createAt", "updateAt"})
+@JsonPropertyOrder({"id", "username", "phone", "password", "address", "createAt", "updateAt"})
 public class User implements Serializable {
     private static final long          serialVersionUID = 3567653491060394677L;
     @TableId(type = IdType.AUTO)
     private              Integer       id;
+    private              String        username;
     private              String        phone;
     private              String        password;
     private              String        address;

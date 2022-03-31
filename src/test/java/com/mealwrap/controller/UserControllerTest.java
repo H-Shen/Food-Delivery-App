@@ -336,7 +336,7 @@ class UserControllerTest {
                     .andExpect(jsonPath("$.msg").value("user successfully logged in"))
                     .andReturn();
             User user = userService.getOne(new QueryWrapper<User>().eq("phone", "6135550143"));
-            token = JwtUtils.getToken(user.getId());
+            token = JwtUtils.getToken(user);
         }
         // logout
         String              url         = baseUrl + "/logout";

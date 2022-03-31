@@ -41,7 +41,7 @@ public class MerchantController {
 
     @ApiOperation("Get a merchant without its image")
     @GetMapping("/id")
-    public Result<Map<String, Object>> getAMerchantWithoutImage(@RequestParam("id") @NotNull Integer id) {
+    public Result<Map<String, Object>> getMerchantWithoutImage(@RequestParam("id") @NotNull Integer id) {
         if (id == null) {
             return Result.error(ResultEnum.BAD_REQUEST);
         }

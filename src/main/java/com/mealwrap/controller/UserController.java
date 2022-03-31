@@ -68,7 +68,7 @@ public class UserController {
         // generate the token by the user ID
         String token;
         try {
-            token = JwtUtils.getToken(user.getId());
+            token = JwtUtils.getToken(user);
         } catch (Exception e) {
             return Result.error(ResultEnum.BAD_REQUEST, "failed to generate the token: " + e.getMessage());
         }
