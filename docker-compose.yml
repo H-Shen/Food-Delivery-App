@@ -4,7 +4,7 @@ services:
 
   redis:
     image: redis:6.0-alpine
-    container_name: mealwrap-redis
+    container_name: food-delivery-app-redis
     ports:
       - "16379:6379"
     networks:
@@ -13,12 +13,12 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: mealwrap-mysql
+    container_name: food-delivery-app-mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       - "MYSQL_ROOT_PASSWORD=123456"
-      - "MYSQL_DATABASE=mealwrap"
+      - "MYSQL_DATABASE=app"
     ports:
       - "13306:3306"
     networks:
@@ -26,7 +26,7 @@ services:
         ipv4_address: 177.77.0.2
 
   springboot:
-    container_name: mealwrap-springboot
+    container_name: food-delivery-app-springboot
     build:
       context: .
       dockerfile: Dockerfile

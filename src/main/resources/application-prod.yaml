@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://177.77.0.2:3306/mealwrap?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=America/Edmonton&useLegacyDatetimeCode=false
+    url: jdbc:mysql://177.77.0.2:3306/app?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=America/Edmonton&useLegacyDatetimeCode=false
     username: root
     password: 123456
     type: com.zaxxer.hikari.HikariDataSource
@@ -11,7 +11,7 @@ spring:
       schema-locations: classpath:db/schema.sql
       mode: always
   application:
-    name: Mealwrap
+    name: Food_Delivery_App
   redis:
     timeout: 60000
     database: 0 # use database #0 for production
