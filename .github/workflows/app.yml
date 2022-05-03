@@ -1,0 +1,15 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image with docker-compose
+      run: docker-compose build --no-cache
+    - name: Build and run the docker containers from the images
+      run: docker-compose up -d
