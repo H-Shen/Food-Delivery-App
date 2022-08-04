@@ -26,7 +26,7 @@
         <mybatis-plus-boot-starter.version>3.5.1</mybatis-plus-boot-starter.version>
         <jjwt.version>0.9.1</jjwt.version>
         <spring-security-crypto.version>5.2.2.RELEASE</spring-security-crypto.version>
-        <mysql-connector-java.version>8.0.25</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.28</mysql-connector-java.version>
         <spring-boot-starter-data-redis.version>2.5.12</spring-boot-starter-data-redis.version>
         <hutool-all.version>5.7.20</hutool-all.version>
         <jakarta.validation.version>2.0.2</jakarta.validation.version>
