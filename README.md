@@ -1,4 +1,4 @@
-### A Food Delivery App
+### The backend demo of a doordash-like food delivery app
 
 ```shell
 # to clean all cache before building (optional)
